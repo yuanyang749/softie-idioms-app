@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff8ec">
+  <meta name="description" content="和五只软乎乎一起玩成语。三个难度、150 道情境填字题，答对就让气泡和音乐一起庆祝。">
+  <title>软乎乎 · 成语泡泡</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="show.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+
+<body data-screen="home">
+  <div id="paper" aria-hidden="true"></div>
+  <div id="rays-fallback" aria-hidden="true"></div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <canvas id="fx-back" aria-hidden="true"></canvas>
+  <main id="app">
+    <header class="topbar">
+      <a href="./" class="brand" aria-label="软乎乎首页"><span id="brand-slime"
+          aria-hidden="true"></span><span>softie<small>软乎乎的文字游乐场</small></span></a>
+      <div class="top-actions" role="toolbar" aria-label="快捷设置">
+        <button type="button" class="icon-btn settings-btn" id="open-settings" aria-label="游戏设置" title="游戏设置">
+          <svg viewBox="-16 -16 32 32" aria-hidden="true">
+            <circle r="10.6" fill="none" stroke="#302238" stroke-width="9" stroke-dasharray="4.2 4.12" />
+            <circle r="10.6" fill="#ffd23f" stroke="#302238" stroke-width="2.4" />
+            <circle r="4.4" fill="#fff" stroke="#302238" stroke-width="2.4" />
+          </svg>
+        </button>
+        <button type="button" class="icon-btn settings-btn help-btn" id="open-guide" aria-label="怎么玩" title="怎么玩"
+          aria-haspopup="dialog">
+          <svg viewBox="-16 -16 32 32" aria-hidden="true">
+            <path d="M-6 -4 C-6 -7 -3 -9 0 -9 C3 -9 6 -7 6 -4 C6 -1 0 0 0 3 M0 9v.01" fill="none" stroke="#302238"
+              stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section id="home" class="screen" aria-labelledby="logo">
+      <div class="hero">
+        <p class="eyebrow" id="home-eyebrow">小小成语，大大能量</p>
+        <h1 id="logo" class="logo" aria-label="成语泡泡">
+          <svg class="logo-burst" viewBox="-100 -100 200 200" aria-hidden="true">
+            <path id="logo-burst-path" fill="#ffd23f" stroke="#302238" stroke-width="5" stroke-linejoin="round" />
+            <path id="logo-burst-inner" fill="#ff7ab6" stroke="#302238" stroke-width="4" stroke-linejoin="round" />
+          </svg>
+          <span class="logo-top" aria-hidden="true"><i data-c="成">成</i><i data-c="语">语</i></span>
+          <span class="logo-ribbon" aria-hidden="true">
+            <svg class="ribbon-bg" viewBox="0 0 300 70" preserveAspectRatio="none">
+              <path d="M4 22 L34 16 L28 36 L40 58 L6 62 L18 42Z" fill="#2a4fd6" stroke="#302238" stroke-width="4"
+                stroke-linejoin="round" />
+              <path d="M296 22 L266 16 L272 36 L260 58 L294 62 L282 42Z" fill="#2a4fd6" stroke="#302238"
+                stroke-width="4" stroke-linejoin="round" />
+              <path d="M30 10 Q150 -4 270 10 L270 56 Q150 42 30 56Z" fill="#3b6bff" stroke="#302238" stroke-width="4.5"
+                stroke-linejoin="round" />
+              <path d="M42 18 Q150 6 258 18" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="7 6"
+                stroke-linecap="round" opacity=".8" />
+            </svg>
+            <i>泡</i><i>泡</i>
+          </span>
+          <span class="logo-bits" aria-hidden="true">
+            <b id="logo-bit-1" style="--x:-46%;--y:4%;--r:-18deg;--c:#3fdcb0">妙</b>
+            <b id="logo-bit-2" style="--x:44%;--y:3%;--r:14deg;--c:#a77bff">趣</b>
+            <b style="--x:-36%;--y:86%;--r:10deg;--c:#ff4f6d">✦</b>
+            <b style="--x:36%;--y:86%;--r:-12deg;--c:#ffd23f">○</b>
+          </span>
+        </h1>
+        <p class="intro">选对一个字，让快乐冒个泡。</p>
+        <div class="home-stage" aria-hidden="true">
+          <div id="home-softies" class="slime-party"></div>
+          <div class="stage-floor"></div>
+        </div>
+      </div>
+      <button id="start-placement" class="big-btn start-button"><span id="start-label">个性化闯关</span><small
+          id="start-note">首次游玩将进行实力诊断测试</small></button>
+
+      <div class="activity-bar" role="toolbar" aria-label="日常活动与成就">
+        <button type="button" class="activity-pill bonus-pill" id="open-bonus" aria-label="每日签到" title="每日签到"
+          aria-haspopup="dialog">
+          <span class="action-dot" id="bonus-dot" hidden aria-hidden="true"></span>
+          <span class="activity-icon" aria-hidden="true">
+            <svg viewBox="-16 -16 32 32">
+              <path d="M0 -13 L3.8 -4 L13.5 -3.2 L6.5 3.6 L8.5 13 L0 8.2 L-8.5 13 L-6.5 3.6 L-13.5 -3.2 L-3.8 -4 Z" fill="#ffd23f" stroke="#302238" stroke-width="2.3" stroke-linejoin="round"/>
+              <circle cx="0" cy="0" r="3.2" fill="#fff" stroke="#302238" stroke-width="1.8"/>
+            </svg>
+          </span>
+          <span class="activity-label">每日签到</span>
+        </button>
+
+        <button type="button" class="activity-pill quest-pill" id="open-quests" aria-label="今日委托" title="今日委托"
+          aria-haspopup="dialog">
+          <span class="action-dot" id="quest-dot" hidden aria-hidden="true"></span>
+          <span class="activity-icon" aria-hidden="true">
+            <svg viewBox="-16 -16 32 32">
+              <rect x="-9.5" y="-7.5" width="19" height="21" rx="4" fill="#fff" stroke="#302238" stroke-width="2.5" stroke-linejoin="round" />
+              <path d="M-5 -7.5 L-5 -11 C-5 -12.2 -3.8 -13.2 -2 -13.2 L2 -13.2 C3.8 -13.2 5 -12.2 5 -11 L5 -7.5 Z" fill="#ffd23f" stroke="#302238" stroke-width="2.2" stroke-linejoin="round" />
+              <circle cx="0" cy="-10.5" r="1.3" fill="#fff" stroke="#302238" stroke-width="1.6" />
+              <path d="M-5.5 -1.2 L-2.8 1.5 L3.8 -4.5" fill="none" stroke="#38b27d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="-5" y1="5.2" x2="4.5" y2="5.2" stroke="#302238" stroke-width="2.2" stroke-linecap="round" />
+              <line x1="-5" y1="9.2" x2="1" y2="9.2" stroke="#a0929d" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="activity-label">今日委托</span>
+        </button>
+
+        <button type="button" class="activity-pill cal-pill" id="open-calendar" aria-label="成语足迹" title="成语足迹"
+          aria-haspopup="dialog">
+          <span class="action-dot" id="cal-dot" hidden aria-hidden="true"></span>
+          <span class="activity-icon" aria-hidden="true">
+            <svg viewBox="-16 -16 32 32">
+              <rect x="-10" y="-7" width="20" height="20" rx="4" fill="#fff" stroke="#302238" stroke-width="2.5" stroke-linejoin="round" />
+              <path d="M-10 -2 L-10 -5 C-10 -6.5 -8.5 -7.5 -7 -7.5 L7 -7.5 C8.5 -7.5 10 -6.5 10 -5 L10 -2 Z" fill="#ff7ab6" stroke="#302238" stroke-width="2.5" stroke-linejoin="round" />
+              <rect x="-6.5" y="-10.5" width="2.6" height="5" rx="1.3" fill="#ffd23f" stroke="#302238" stroke-width="1.8" />
+              <rect x="3.9" y="-10.5" width="2.6" height="5" rx="1.3" fill="#ffd23f" stroke="#302238" stroke-width="1.8" />
+              <circle cx="0" cy="4" r="3.4" fill="#ffd23f" stroke="#302238" stroke-width="2" />
+              <circle cx="0" cy="4" r="1.3" fill="#ff5277" />
+              <circle cx="-3" cy="0.8" r="1.1" fill="#302238" />
+              <circle cx="3" cy="0.8" r="1.1" fill="#302238" />
+            </svg>
+          </span>
+          <span class="activity-label">成语足迹</span>
+        </button>
+
+        <button type="button" class="activity-pill trophy-pill" id="open-trophy" aria-label="成语奖杯" title="成语奖杯"
+          aria-haspopup="dialog">
+          <span class="trophy-badge" id="trophy-badge">0</span>
+          <span class="activity-icon" aria-hidden="true">
+            <svg viewBox="-20 -20 40 40">
+              <g stroke="#302238" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M-10.5 -12 C-18 -12 -18 -1 -8 1 M10.5 -12 C18 -12 18 -1 8 1" fill="none" stroke-width="2.6"/>
+                <path d="M-11 -16 H11 V-7 C11 2 5.5 6.5 0 6.5 C-5.5 6.5 -11 2 -11 -7Z" fill="#ffd23f"/>
+                <path d="M-3 6.5 L3 6.5 L4.2 11.5 L-4.2 11.5Z" fill="#d99400"/>
+                <rect x="-9.5" y="11.5" width="19" height="5.5" rx="2" fill="#ffd23f"/>
+                <path d="M0 -12.5 L1.6 -8.8 L5.6 -8.5 L2.6 -5.9 L3.5 -2 L0 -4.1 L-3.5 -2 L-2.6 -5.9 L-5.6 -8.5 L-1.6 -8.8Z" fill="#fff" stroke-width="1.2"/>
+              </g>
+            </svg>
+          </span>
+          <span class="activity-label">成语奖杯</span>
+        </button>
+      </div>
+
+      <div class="section-label">
+        <h2>也可以，自己选一站</h2>
+        <div id="mode-toggle" class="mode-toggle" role="radiogroup" aria-label="游戏模式">
+          <button type="button" class="mode-pill active" data-mode="children" role="radio" aria-checked="true">
+            <span class="mode-emoji" aria-hidden="true">🍭</span>
+            <span>儿童</span>
+          </button>
+          <button type="button" class="mode-pill" data-mode="adult" role="radio" aria-checked="false">
+            <svg class="mode-svg" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M11.5 2 L5.5 10.5 H10 L8.5 18 L15.5 8.5 H10.5 Z" fill="#ffd86b" stroke="#302238" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+            <span>成人</span>
+          </button>
+        </div>
+        <select id="mode-select" class="sr-only" aria-hidden="true" tabindex="-1">
+          <option value="children">儿童模式</option>
+          <option value="adult">成人模式</option>
+        </select>
+      </div>
+      <div id="levels" class="level-list" aria-label="选择难度"></div>
+      <div class="home-actions">
+        <button id="start-review" class="sub-btn" disabled>再练一练 <span id="review-count">0</span></button>
+        <button id="start-demo" class="sub-btn">泡泡秀演示 <span aria-hidden="true">▷</span></button>
+      </div>
+
+      <p id="home-progress" class="footnote">不用赶时间，答错也没关系。</p>
+      <button id="retest" class="quiet-button" hidden>重新测测起点</button>
+    </section>
+
+    <section id="play" class="screen" aria-labelledby="play-title" hidden>
+      <div class="play-top"><button id="exit-game" class="text-button">← 返回</button>
+        <h1 id="play-title">萌芽小站</h1><span id="question-number">01 / 08</span>
+      </div>
+      <div class="arcade-hud">
+        <div class="hud-top">
+          <div id="pips" class="pips" aria-label="本局进度"></div>
+          <div id="question-timer" class="question-timer" role="timer"><span id="timer-label">剩余</span><b
+              id="time-left">30</b><span>秒</span><span class="time-track"><i id="time-fill"></i></span></div>
+          <div id="demo-banner" hidden><span>演示模式</span><button id="stop-demo" aria-label="结束演示">结束演示</button></div>
+        </div>
+        <div class="hud-bottom">
+          <div class="tally"><span class="tally-pill">填对 <b id="hud-solved">0</b><small>/ <span
+                  id="hud-total">8</span></small></span><span class="tally-pill miss-pill">差一点 <b
+                id="hud-misses">0</b></span></div>
+          <div class="energy-cluster">
+            <div id="combo-box" class="combo-box">
+              <div><b id="combo">0</b><span>连击</span></div><small id="combo-mult">能量 ×1.00</small><i class="combo-track"><i
+                  id="combo-fill"></i></i>
+            </div>
+            <div class="energy-row"><span>快乐能量 <b id="energy-value">0</b></span>
+              <div class="energy-track">
+                <div id="energy-fill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="play-stage" aria-hidden="true"><svg class="bunting" viewBox="0 0 400 34" preserveAspectRatio="none">
+          <path d="M0 4Q200 32 400 4" fill="none" stroke="#302238" stroke-width="2" />
+          <g stroke="#302238" stroke-width="1.5">
+            <path d="M8 5l8 14 9-12" fill="#ff7ab6" />
+            <path d="M47 10l8 14 9-12" fill="#3b6bff" />
+            <path d="M86 14l8 14 9-12" fill="#ffd23f" />
+            <path d="M125 17l8 14 9-13" fill="#3fdcb0" />
+            <path d="M164 18l8 14 9-14" fill="#a77bff" />
+            <path d="M203 18l8 14 9-14" fill="#ff7ab6" />
+            <path d="M242 17l8 14 9-15" fill="#3b6bff" />
+            <path d="M281 14l8 14 9-16" fill="#ffd23f" />
+            <path d="M320 10l8 14 9-16" fill="#3fdcb0" />
+            <path d="M359 6l8 14 9-16" fill="#a77bff" />
+          </g>
+        </svg>
+        <div class="spot spot-l"></div>
+        <div class="spot spot-r"></div><span id="actor-caption">泡泡小队，准备好啦</span>
+        <div id="play-softies" class="slime-party"></div><span class="reach-tag">就差一个字！</span>
+      </div>
+      <article id="question-card" class="question-card">
+        <div class="marquee" aria-hidden="true"></div>
+        <div class="card-heading"><span id="level-tag">萌芽 · 单字填空</span><span id="blank-count">选一个字</span></div>
+        <p id="context" class="context"></p>
+        <div id="word-slots" class="word-slots" aria-label="待完成的成语"></div>
+        <div id="stamp" aria-hidden="true"></div>
+        <p id="feedback" class="feedback" role="status" aria-live="polite">让软乎乎把选中的字送过去吧。</p>
+      </article>
+      <div id="answer-area">
+        <p class="choice-note">点一个字，发射气泡 <span>键盘 1—4 也可以</span></p>
+        <div id="choices" class="choices" aria-label="候选字"></div>
+        <div class="hint-row"><button id="show-hint" class="text-button">给我一点提示</button><button id="skip-question"
+            class="text-button" hidden>还没学过</button></div>
+        <p id="hint" class="hint" hidden></p>
+      </div>
+      <div id="explanation" class="explanation" hidden>
+        <p class="explain-heading"><b id="answer-word"></b><span>今天又认识了一个成语</span></p>
+        <p id="meaning"></p>
+        <p id="example" class="example"></p>
+        <button id="next-question" class="primary">记住啦，下一题 <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+
+    <section id="result" class="screen result-screen" aria-labelledby="result-title" hidden>
+      <p class="eyebrow" id="result-eyebrow">泡泡小队，为你欢呼</p>
+      <h1 id="result-title" tabindex="-1">每一点进步<br>都值得庆祝。</h1>
+      <div id="result-softies" class="slime-party result-party" aria-hidden="true"></div>
+      <div class="result-score"><strong id="result-score">100</strong><span id="score-label">完成分</span></div>
+      <p id="result-summary"></p>
+      <div id="result-details" class="result-details"></div>
+      <div class="quest-mini" id="r-quests"></div>
+      <button id="result-start" class="primary">再来一轮 <span aria-hidden="true">→</span></button>
+      <button id="result-review" class="secondary" hidden>再练一练 · 待复习成语</button>
+      <button id="result-home" class="text-button">回到文字游乐场</button>
+    </section>
+    <section id="settings" class="screen settings-screen" aria-labelledby="settings-title" hidden>
+      <div class="settings-heading"><button id="close-settings" class="text-button">← 返回首页</button><span
+          class="settings-softie" id="settings-softie" aria-hidden="true"></span></div>
+      <h1 id="settings-title" tabindex="-1">游戏设置</h1>
+      <p class="settings-intro">先调好气氛，再和软乎乎出发。</p>
+      <div class="settings-card main-settings">
+        <div class="set-row">
+          <span class="set-label">音效与音乐</span>
+          <div class="set-inline">
+            <label class="toggle-pill" for="sound-setting">
+              <input id="sound-setting" type="checkbox" checked class="sr-only">
+              <span class="toggle-btn" id="sound-toggle-btn"><i aria-hidden="true">♪</i><b id="sound-toggle-text">开启</b></span>
+            </label>
+            <input type="range" class="slider" id="volume-setting" min="0" max="100" step="1" value="80" aria-label="音量" style="--v: 0.8;">
+            <output id="volume-value" class="sr-only">80%</output>
+          </div>
+        </div>
+
+        <div class="set-row">
+          <span class="set-label">动态特效强度 <b id="motion-val">100%</b></span>
+          <input type="range" class="slider motion" id="motion-setting" min="0" max="100" step="1" value="100" aria-label="动态特效强度" aria-describedby="motion-note" style="--v: 1;">
+          <p class="set-note" id="motion-note">调至 0% 可关闭屏幕晃动、强光闪烁与纸屑飘落</p>
+        </div>
+
+        <div class="set-row">
+          <span class="set-label">自动演示</span>
+          <button type="button" class="sub-btn demo-btn" id="settings-demo">▶ 查看自动演示</button>
+          <p class="set-note">轻触屏幕或按任意键即可退出演示（不计入个人记录）</p>
+        </div>
+
+        <div class="set-row">
+          <span class="set-label">存档数据</span>
+          <button type="button" class="danger-btn reset-btn" id="ask-reset" aria-describedby="reset-note">全部重置</button>
+          <p class="set-note" id="reset-note">清除此浏览器上的所有游戏进度、成就与自定义设置，回到初始状态</p>
+        </div>
+      </div>
+      <div class="settings-card rules-settings">
+        <h2>挑战规则</h2>
+        <div class="timing-chips" id="timing-chips"></div>
+        <p>双空题共用时间。读解释时暂停，超时后先认识答案，再挑战下一题。</p>
+        <p class="dialog-note" id="mode-disclaimer"></p>
+      </div>
+    </section>
+    <footer>只保存在这台设备 · 不需要登录</footer>
+  </main>
+  <div id="show-actors" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <svg id="bubble-layer" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+  <div id="cutins" aria-hidden="true"></div>
+  <div id="flash" aria-hidden="true"></div>
+  <p id="storage-note" class="storage-note" role="status" hidden>浏览器未能保存记录，本次仍可继续玩。</p>
+
+  <dialog id="leave-dialog" aria-labelledby="leave-title">
+    <h2 id="leave-title">要回到游乐场吗？</h2>
+    <p>已完成题目的学习记录会保留，这一轮不会算作完成。</p>
+    <div class="dialog-actions"><button id="keep-playing" class="secondary">继续玩</button><button id="leave-confirm"
+        class="primary">回到首页</button></div>
+  </dialog>
+
+  <dialog id="guide-dialog" class="guide-dialog" aria-labelledby="guide-title">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-guide" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <h2 id="guide-title">怎么玩 · 游戏说明</h2>
+    </div>
+    <div class="guide-content">
+      <div class="guide-step">
+        <span class="guide-badge">1</span>
+        <div><b>选字发射泡泡</b>
+          <p>点击候选字（电脑端按键盘 1–4），软乎乎会吐出彩色泡泡，把字准确送进成语里！</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <span class="guide-badge">2</span>
+        <div><b>逐题时限挑战</b>
+          <p>萌芽 30 秒、成长 24 秒、绽放 20 秒。读解释和查看提示时暂停，超时无惩罚！</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <span class="guide-badge">3</span>
+        <div><b>多巴胺节拍庆祝</b>
+          <p>连续答对升级全屏特效和音乐叠轨，答错不掉势能，越玩越快乐！</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <span class="guide-badge">4</span>
+        <div><b>补签金锤 · 连击守护 <i class="guide-ham-icon" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#302238" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><path d="M44.5 40 L55.5 40 L57 97 L43 97Z" fill="#3b6bff"/><path d="M44 60 L56 57 M44 74 L56 71 M44 88 L56 85" fill="none" stroke-width="2.6"/><rect x="13" y="12" width="74" height="30" rx="13" fill="#ff7ab6"/><rect x="5" y="8" width="15" height="38" rx="6" fill="#ffd23f"/><rect x="80" y="8" width="15" height="38" rx="6" fill="#ffd23f"/><path d="M28 20 Q50 15 72 20" fill="none" stroke="#fff" stroke-width="3" opacity=".85"/></g></svg></i></b>
+          <p>每日完成「今日委托」可获赠金锤（最多可存 3 把）。如果偶尔忙碌断签，可用它修复缺席日期、续接连续打卡记录！</p>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" id="guide-confirm" class="big-btn guide-ok-btn">我知道啦，出发！</button>
+    </div>
+  </dialog>
+
+  <!-- 奖杯陈列馆 Modal -->
+  <dialog id="trophy-dialog" class="trophy-dialog" aria-labelledby="tr-dialog-title">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-trophy" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <div class="tr-dialog-title-group">
+        <h2 id="tr-dialog-title">成语奖杯馆</h2>
+        <span class="tree-count" id="trophy-count">0 / 0</span>
+      </div>
+    </div>
+    <div class="tr-filter" role="group" aria-label="筛选">
+      <button type="button" class="active" data-f="all">全部</button>
+      <button type="button" data-f="got">已获得</button>
+      <button type="button" data-f="next">未解锁</button>
+    </div>
+    <div class="tr-scroll" id="tr-scroll">
+      <div class="tr-list" id="tr-list"></div>
+    </div>
+  </dialog>
+
+  <!-- 获得新成就庆祝 Modal -->
+  <dialog id="trophy-got-dialog" class="trophy-got-dialog" aria-labelledby="tg-title">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-tg" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <div class="quest-dialog-title-group">
+        <h2 id="tg-title">获得新成就！</h2>
+        <span class="quest-reward" id="tg-reward">
+          <span class="qsoftie" aria-hidden="true">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <defs><linearGradient id="softie-mini-tg" x1="24" y1="5" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd5e5"/><stop offset="1" stop-color="#f17fa9"/></linearGradient></defs>
+              <g><path d="M24 5c-5.9 0-6.3 7.2-10.3 9.8C7.6 18.7 5 24.2 5 30.3 5 38.8 12.6 43 24 43s19-4.2 19-12.7c0-6.1-2.6-11.6-8.7-15.5C30.3 12.2 29.9 5 24 5Z" stroke="#221d20" stroke-width="2.2" stroke-linejoin="round" fill="url(#softie-mini-tg)"/>
+              <path d="M13 23q-4 4-3 8" stroke="white" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
+              <circle cx="13.2" cy="31.2" r="2.5" fill="#ef6d98" opacity=".6"/><circle cx="34.8" cy="31.2" r="2.5" fill="#ef6d98" opacity=".6"/>
+              <circle cx="17.2" cy="27.8" r="2.4" fill="#221d20"/><circle cx="18" cy="27" r=".8" fill="white"/>
+              <circle cx="30.8" cy="27.8" r="2.4" fill="#221d20"/><circle cx="31.6" cy="27" r=".8" fill="white"/>
+              <path d="M21.2 31.5q2.8 3.5 5.6 0" stroke="#221d20" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </g>
+            </svg>
+          </span>
+          <span>软乎乎为你喝彩</span>
+        </span>
+      </div>
+    </div>
+    <div class="tg-dialog-body">
+      <div class="tg-list" id="tg-list"></div>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" id="tg-ok" class="big-btn guide-ok-btn">太棒了！</button>
+    </div>
+  </dialog>
+
+  <!-- 补签锤使用弹窗 -->
+  <dialog id="hammer-dialog" class="hammer-dialog" aria-labelledby="hammer-title">
+    <div class="hammer-art" aria-hidden="true">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <g stroke="#302238" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M44.5 40 L55.5 40 L57 97 L43 97Z" fill="#3b6bff"/>
+          <path d="M44 60 L56 57 M44 74 L56 71 M44 88 L56 85" fill="none" stroke-width="2.6"/>
+          <rect x="13" y="12" width="74" height="30" rx="13" fill="#ff7ab6"/>
+          <rect x="5" y="8" width="15" height="38" rx="6" fill="#ffd23f"/>
+          <rect x="80" y="8" width="15" height="38" rx="6" fill="#ffd23f"/>
+          <path d="M28 20 Q50 15 72 20" fill="none" stroke="#fff" stroke-width="3" opacity=".85"/>
+        </g>
+      </svg>
+    </div>
+    <h2 id="hammer-title">连击守护</h2>
+    <p id="hammer-msg"></p>
+    <div class="dialog-actions">
+      <button type="button" id="hammer-no" class="secondary">暂不补签</button>
+      <button type="button" id="hammer-yes" class="primary">使用补签锤</button>
+    </div>
+  </dialog>
+
+  <!-- 日历单日研习记录 Modal -->
+  <dialog id="day-log-dialog" class="day-log-dialog" aria-labelledby="day-title">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-day" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <h2 id="day-title">研习记录</h2>
+    </div>
+    <ul class="day-list" id="day-list"></ul>
+  </dialog>
+
+  <!-- 今日委托 / 每日任务 Modal -->
+  <dialog id="quests-dialog" class="quests-dialog" aria-labelledby="quest-title">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-quests" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <div class="quest-dialog-title-group">
+        <h2 id="quest-title">今日委托</h2>
+        <span class="quest-reward" id="quest-reward">
+          <span class="qham" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#302238" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><path d="M44.5 40 L55.5 40 L57 97 L43 97Z" fill="#3b6bff"/><path d="M44 60 L56 57 M44 74 L56 71 M44 88 L56 85" fill="none" stroke-width="2.6"/><rect x="13" y="12" width="74" height="30" rx="13" fill="#ff7ab6"/><rect x="5" y="8" width="15" height="38" rx="6" fill="#ffd23f"/><rect x="80" y="8" width="15" height="38" rx="6" fill="#ffd23f"/><path d="M28 20 Q50 15 72 20" fill="none" stroke="#fff" stroke-width="3" opacity=".85"/></g></svg></span>
+          <span id="quest-reward-text">全部达成领金锤</span>
+        </span>
+      </div>
+    </div>
+    <div class="quest-dialog-body" id="quests">
+      <ol class="quest-list" id="quest-list"></ol>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" id="quests-confirm" class="big-btn guide-ok-btn">我知道啦</button>
+    </div>
+  </dialog>
+
+  <!-- 成语足迹日历打卡 Modal -->
+  <dialog id="calendar-dialog" class="calendar-dialog" aria-labelledby="cal-title">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-calendar" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <div class="cal-nav-group">
+        <button type="button" class="cal-nav" id="cal-prev" aria-label="上一月">‹</button>
+        <h2 id="cal-title">成语足迹</h2>
+        <button type="button" class="cal-nav" id="cal-next" aria-label="下一月">›</button>
+      </div>
+    </div>
+    <div class="cal-badges" id="cal-badges"></div>
+    <div class="cal-week" aria-hidden="true">
+      <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+    </div>
+    <div class="cal-grid" id="cal-grid" role="grid"></div>
+    <p class="dialog-footnote">点击已打卡的日期，可以回顾当日挑战记录哦！</p>
+    <div class="dialog-actions">
+      <button type="button" id="calendar-confirm" class="big-btn guide-ok-btn">我知道啦</button>
+    </div>
+  </dialog>
+
+  <!-- 每日签到 / 每日登录奖励 Modal -->
+  <dialog id="bonus-dialog" class="bonus-dialog" aria-labelledby="bonus-title">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-bonus" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <div class="quest-dialog-title-group">
+        <h2 id="bonus-title">每日签到</h2>
+        <span class="quest-reward" id="bonus-reward">
+          <span class="qsoftie" aria-hidden="true">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <defs><linearGradient id="softie-mini-b" x1="24" y1="5" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd5e5"/><stop offset="1" stop-color="#f17fa9"/></linearGradient></defs>
+              <g><path d="M24 5c-5.9 0-6.3 7.2-10.3 9.8C7.6 18.7 5 24.2 5 30.3 5 38.8 12.6 43 24 43s19-4.2 19-12.7c0-6.1-2.6-11.6-8.7-15.5C30.3 12.2 29.9 5 24 5Z" stroke="#221d20" stroke-width="2.2" stroke-linejoin="round" fill="url(#softie-mini-b)"/>
+              <path d="M13 23q-4 4-3 8" stroke="white" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
+              <circle cx="13.2" cy="31.2" r="2.5" fill="#ef6d98" opacity=".6"/><circle cx="34.8" cy="31.2" r="2.5" fill="#ef6d98" opacity=".6"/>
+              <circle cx="17.2" cy="27.8" r="2.4" fill="#221d20"/><circle cx="18" cy="27" r=".8" fill="white"/>
+              <circle cx="30.8" cy="27.8" r="2.4" fill="#221d20"/><circle cx="31.6" cy="27" r=".8" fill="white"/>
+              <path d="M21.2 31.5q2.8 3.5 5.6 0" stroke="#221d20" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </g>
+            </svg>
+          </span>
+          <span id="bonus-run">今日签到奖励</span>
+        </span>
+      </div>
+    </div>
+    <div class="bonus-dialog-body">
+      <div class="bonus-card-grid" id="bonus-grid"></div>
+      <p class="bonus-note" id="bonus-note"></p>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" class="big-btn guide-ok-btn" id="bonus-ok">立即领取</button>
+    </div>
+  </dialog>
+
+  <!-- 全局数据重置确认 Modal -->
+  <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-msg">
+    <button type="button" class="icon-btn close-dialog-btn" id="close-confirm" aria-label="关闭">✕</button>
+    <div class="dialog-head">
+      <div class="quest-dialog-title-group">
+        <h2 id="confirm-title">全部重置</h2>
+      </div>
+    </div>
+    <div class="confirm-dialog-body">
+      <div class="confirm-art" aria-hidden="true">
+        <svg viewBox="0 0 60 60" aria-hidden="true">
+          <g>
+            <path d="M30 6c-7.5 0-8 9.2-13.1 12.5C9.7 23.5 6.4 30.5 6.4 38.3c0 10.8 9.7 16.2 24.2 16.2s24.2-5.4 24.2-16.2c0-7.8-3.3-14.8-11.1-19.8C38.6 15.2 38.1 6 30 6Z" fill="#ff7a9e" stroke="#302238" stroke-width="2.8" stroke-linejoin="round"/>
+            <ellipse cx="21" cy="35" rx="3.5" ry="4.5" fill="#302238"/>
+            <ellipse cx="39" cy="35" rx="3.5" ry="4.5" fill="#302238"/>
+            <circle cx="20" cy="33.5" r="1.3" fill="#fff"/>
+            <circle cx="38" cy="33.5" r="1.3" fill="#fff"/>
+            <path d="M25 43 Q 30 39, 35 43" fill="none" stroke="#302238" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M46 22 C46 22, 50 28, 48 31 C46.5 33, 43.5 31, 44 28 Z" fill="#60a5fa" stroke="#302238" stroke-width="1.8"/>
+          </g>
+        </svg>
+      </div>
+      <p id="confirm-msg" class="confirm-msg">确定要清除此设备上的所有成语练习记录、成就与签到数据吗？<br><small>清除后数据将无法恢复。</small></p>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" id="confirm-no" class="secondary">再想想</button>
+      <button type="button" id="confirm-yes" class="danger-btn">继续重置</button>
+    </div>
+  </dialog>
+  <noscript>请开启 JavaScript，和软乎乎一起玩成语。</noscript>
+</body>
+
+</html>

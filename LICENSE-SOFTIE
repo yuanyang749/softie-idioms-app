@@ -1,0 +1,60 @@
+MIT License
+
+Copyright (c) 2026 Softie Idioms (软乎乎 · 成语泡泡)
+Portions Copyright (c) 2026 gear_machine
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+
+Exceptions to the MIT License (MIT 许可证例外说明)
+
+1. Character, Logo and Brand (Mascot "Softie" / 软乎乎)
+
+   The MIT License above does NOT apply to the mascot character "Softie"
+   (软乎乎) or to the "Softie Idioms" (软乎乎 · 成语泡泡) name, brand and logo,
+   including their designs, shapes, color palettes and likenesses as defined
+   and drawn in js/softie.js, icon.svg, and index.html (the "Brand & Characters").
+   Copyright (c) 2026 Softie Idioms.
+
+   You may, without asking, use the Brand & Characters for non-commercial purposes,
+   including fan art, illustrations, animations, videos, social media posts,
+   and non-commercial forks or modified versions of this game.
+
+   The following are NOT permitted without prior written permission:
+   - commercial use, such as selling merchandise, artworks, physical/digital
+     goods featuring the Characters, or using them in paid products, services
+     or advertising;
+   - using the Characters or Brand as the name, mascot, or branding of another
+     product or service, or presenting your work as official;
+   - uses that are offensive, defamatory, or that harm the reputation of the
+     Characters or of this project.
+
+   Gameplay videos and live streams of this game are permitted, including on
+   platforms where the creator receives advertising or tipping revenue.
+
+   When a fan work or fork is published, please make clear that it is unofficial.
+
+2. Original Question Bank and Content (原创题库与内容)
+
+   The idiom questions, interpretations, contextual sentences, and distractors
+   located in js/content/ (including children.js, adult.js) are proprietary
+   educational content of Softie Idioms. They are not covered by the MIT License
+   and may not be scraped, repackaged, or sold for commercial educational products
+   without authorization.
