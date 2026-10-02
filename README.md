@@ -1,6 +1,7 @@
 # 软乎乎 · 成语泡泡
 
-> 🌐 **在线体验**：[https://idiom.520ai.site/](https://idiom.520ai.site/)
+> 🌐 **在线体验**：[https://idiom.520ai.site/](https://idiom.520ai.site/)  
+> 🧮 **关联推荐**：欢迎体验系列前作 [Dopa Drill · 多巴胺算术](https://github.com/yuanyang749/dopa-drill)
 
 一款面向儿童与成人的趣味成语益智填字游戏。融合萌趣软乎乎（Softie）角色动效、分级沉浸题库、多巴胺粒子与音乐演出，配备完整的每日打卡、成长月历与奖杯成就体系。纯原生 Web 技术构建，零 npm 依赖、无构建步骤、无后端。
 
@@ -96,6 +97,12 @@ show.css                分级舞台效果与倒计时呈现
 角色和飞行气泡为 SVG，粒子基于 Canvas 2D，二维背景基于 WebGL/CSS 降级。不使用 WebGPU、Three.js、3D 模型或实时软体物理。
 
 浏览器尺寸模拟不等同于真机性能与声音验收；iOS Safari、低端 Android 和音频实际听感需要设备测试。
+
+## 🔗 关联作品推荐
+
+如果你喜欢这种充满即时正反馈的多巴胺益智节奏，欢迎体验我汉化的另一款算术小游戏：
+
+- 🧮 **[Dopa Drill · 多巴胺算术 (GitHub)](https://github.com/yuanyang749/dopa-drill)**：专注于儿童与全年龄速算心算、多巴胺爽感连击反馈的数学练习小游戏，同样具备丝滑粒子、欢快音效与纯原生免构建设计。
 
 ## 许可证
 
