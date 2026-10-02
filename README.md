@@ -8,10 +8,10 @@
 ## 🎬 游戏演示
 
 <div align="center">
-  <video src="demo.mp4" controls="controls" width="480" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-    您的浏览器不支持 HTML5 视频播放，请点击直接查看 <a href="demo.mp4">demo.mp4</a>
+  <video src="https://github.com/user-attachments/assets/b6e51425-c23f-4f64-9e27-e633bee387ed" controls="controls" width="480" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+    您的浏览器不支持 HTML5 视频播放，请点击直接查看 <a href="https://github.com/user-attachments/assets/b6e51425-c23f-4f64-9e27-e633bee387ed">演示视频</a>
   </video>
-  <p><em>▲ 演示视频：完整游戏流程、气泡出招、连击粒子与通关演出（文件：<a href="demo.mp4">demo.mp4</a>）</em></p>
+  <p><em>▲ 演示视频：完整游戏流程、气泡出招、连击粒子与通关演出</em></p>
 </div>
 
 ## 运行
