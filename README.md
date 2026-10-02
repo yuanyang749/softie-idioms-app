@@ -4,6 +4,15 @@
 
 一款面向儿童与成人的趣味成语益智填字游戏。融合萌趣软乎乎（Softie）角色动效、分级沉浸题库、多巴胺粒子与音乐演出，配备完整的每日打卡、成长月历与奖杯成就体系。纯原生 Web 技术构建，零 npm 依赖、无构建步骤、无后端。
 
+## 🎬 游戏演示
+
+<div align="center">
+  <video src="demo.mp4" controls="controls" width="480" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+    您的浏览器不支持 HTML5 视频播放，请点击直接查看 <a href="demo.mp4">demo.mp4</a>
+  </video>
+  <p><em>▲ 演示视频：完整游戏流程、气泡出招、连击粒子与通关演出（文件：<a href="demo.mp4">demo.mp4</a>）</em></p>
+</div>
+
 ## 运行
 
 在本目录运行 `npm run dev`（需要 Python 3），打开 http://127.0.0.1:8016 。也可以使用任意静态服务器。不能以 `file://` 打开 ES Modules。
