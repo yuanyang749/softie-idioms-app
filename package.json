@@ -1,6 +1,8 @@
 {
   "name": "softie-idioms-app",
   "version": "0.1.0",
+  "description": "面向儿童与成人的趣味成语益智游戏 (Softie Idioms)",
+  "homepage": "https://idiom.520ai.site/",
   "private": true,
   "type": "module",
   "scripts": {
