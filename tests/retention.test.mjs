@@ -213,3 +213,30 @@ test('modal dialogs for quests and calendar toggle cleanly and update indicators
   const calDot = f.$('#cal-dot');
   assert.equal(calDot.hidden, false, 'Calendar dot should be visible when today is not played');
 });
+
+test('explanation card heading dynamically adapts for correct answer vs timeout across modes', async () => {
+  // 1. Children mode: correct answer -> 今天又认识了一个成语
+  const fc = createApp({ mode: 'children' });
+  fc.app.start('level', 1);
+  await fc.answer();
+  assert.equal(fc.$('.explain-heading span').textContent, '今天又认识了一个成语');
+
+  // 2. Children mode: timeout -> 先来认识这个新成语
+  const fc2 = createApp({ mode: 'children' });
+  fc2.app.start('level', 1);
+  await fc2.advance(35000); // 30s timeout
+  assert.equal(fc2.$('.explain-heading span').textContent, '先来认识这个新成语');
+
+  // 3. Adult mode: correct answer -> 今天又掌握了一个成语
+  const fa = createApp({ mode: 'adult' });
+  fa.app.start('level', 1);
+  await fa.answer();
+  assert.equal(fa.$('.explain-heading span').textContent, '今天又掌握了一个成语');
+
+  // 4. Adult mode: timeout -> 先来认识这个成语
+  const fa2 = createApp({ mode: 'adult' });
+  fa2.app.start('level', 1);
+  await fa2.advance(25000); // 18s timeout
+  assert.equal(fa2.$('.explain-heading span').textContent, '先来认识这个成语');
+});
+

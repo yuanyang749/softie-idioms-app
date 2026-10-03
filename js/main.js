@@ -797,6 +797,7 @@ function completeQuestion(skipped = false, timedOut = false) {
   updateTimer();
   $('#answer-area').hidden = true; $('#explanation').hidden = false;
   $('#answer-word').textContent = q.word; $('#meaning').textContent = q.meaning;
+  if ($('.explain-heading span')) $('.explain-heading span').textContent = skipped ? (copy.unlearned || '先来认识这个成语') : copy.learned;
   $('#example').textContent = `试着读一读：${q.context.replace('____', q.word)}`;
   $('#next-question').textContent = S.qi === S.questions.length - 1 ? '这一轮完成啦 →' : '记住啦，下一题 →';
   if (!S.demo) $('#next-question').focus({ preventScroll: true });
